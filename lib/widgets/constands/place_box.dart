@@ -547,8 +547,7 @@ class UsersCards extends StatelessWidget {
                       ),
                       child: Center(
                         child: TextFields(
-                          prefixicon:
-                              Image.asset("assets/icons/comment_icon.png"),
+                          prefix: Image.asset("assets/icons/comment_icon.png"),
                           filledColor: const Color(0xFFC6C6C6),
                           radius: 50,
                           label: 'Post your comments',

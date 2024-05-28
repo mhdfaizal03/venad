@@ -110,7 +110,7 @@ class ContributionPage extends StatelessWidget {
                             return Stack(
                               children: [
                                 Container(
-                                  width: 396,
+                                  width: mq.width,
                                   height: 182,
                                   decoration: ShapeDecoration(
                                     color: const Color(0xFFC4C4C4),
@@ -185,7 +185,7 @@ class ContributionPage extends StatelessWidget {
                         ),
                         sizedBoxH10,
                         Container(
-                          width: 386,
+                          width: mq.width,
                           height: 132,
                           decoration: ShapeDecoration(
                             color: const Color(0xFFD9D9D9),

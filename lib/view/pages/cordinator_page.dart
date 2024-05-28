@@ -141,7 +141,7 @@ class _CordinatorPageState extends State<CordinatorPage> {
                                 return Stack(
                                   children: [
                                     Container(
-                                      width: 396,
+                                      width: mq.width,
                                       height: 182,
                                       decoration: ShapeDecoration(
                                         color: const Color(0xFFC4C4C4),

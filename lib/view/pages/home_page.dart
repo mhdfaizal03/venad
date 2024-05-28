@@ -201,7 +201,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Container(
-              width: double.infinity,
+              width: mq.width,
               color: primaryThemeColor,
               child: Center(
                 child: Padding(

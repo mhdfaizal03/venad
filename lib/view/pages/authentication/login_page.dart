@@ -1,12 +1,50 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:venad/view/pages/authentication/add_info_page.dart';
+import 'package:venad/view/pages/authentication/otp_page.dart';
 import 'package:venad/widgets/constands/constands.dart';
 import 'package:venad/widgets/navigate_buttons.dart';
 import 'package:venad/widgets/textfield.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late FlCountryCodePicker? countryPicker;
+
+  final TextEditingController countryCodeController = TextEditingController();
+
+  final TextEditingController phoneNumberController = TextEditingController();
+
+  CountryCode? countryCode;
+
+  Future<void> _submitPhoneNumber(
+    BuildContext context,
+  ) async {
+    String phonenumber =
+        countryCode!.dialCode + phoneNumberController.text.trim();
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    await auth.verifyPhoneNumber(
+      phoneNumber: phonenumber,
+      verificationCompleted: (PhoneAuthCredential credential) async {},
+      verificationFailed: (FirebaseAuthException e) {
+        print(e.message.toString());
+      },
+      codeSent: (String verificationId, int? resentToken) {
+        Get.to(() => OtpPage(
+              verificationId: phonenumber,
+              phoneNumber: phonenumber,
+            ));
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+  }
 
   final Shader linearGradient = const LinearGradient(
     colors: <Color>[
@@ -16,6 +54,26 @@ class LoginPage extends StatelessWidget {
   ).createShader(
     const Rect.fromLTWH(0.0, 80.0, 300.0, 70.0),
   );
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final favoriteCountries = [
+      'IN',
+      'JP',
+      'USD',
+      'CA',
+      'US',
+    ];
+    countryPicker = FlCountryCodePicker(
+      favorites: favoriteCountries,
+      favoritesIcon: const Icon(
+        Icons.star,
+        color: Colors.amber,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +103,39 @@ class LoginPage extends StatelessWidget {
                       color: textLightColor,
                       fontWeight: FontWeight.bold),
                   sizedBoxH20,
-                  TextFields(
-                    label: 'Country/region',
-                    dropdownPressed: () {},
+                  GestureDetector(
+                    onTap: () async {
+                      final code =
+                          await countryPicker?.showPicker(context: context);
+                      setState(() {
+                        countryCode = code;
+                      });
+
+                      try {
+                        countryCodeController.text = countryCode!.dialCode;
+                      } catch (e) {
+                        print(e.toString());
+                      }
+                    },
+                    child: TextFields(
+                      isEnable: false,
+                      prefix: countryCode != null
+                          ? Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: countryCode?.flagImage,
+                            )
+                          : null,
+                      keyBoardType: TextInputType.name,
+                      controller: countryCodeController,
+                      label: countryCode != null
+                          ? countryCode!.name
+                          : 'Select your country',
+                    ),
                   ),
                   sizedBoxH10,
                   TextFields(
+                    controller: phoneNumberController,
+                    keyBoardType: TextInputType.phone,
                     label: 'Phone no',
                     dropdownPressed: () {},
                   ),
@@ -67,9 +152,7 @@ class LoginPage extends StatelessWidget {
                     navigateText: 'Continue',
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
-                    toNavigate: () {
-                      Get.to(() => const AddInfoPage());
-                    },
+                    toNavigate: () => _submitPhoneNumber(context),
                   ),
                   sizedBoxH20,
                   Row(

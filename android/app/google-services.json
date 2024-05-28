@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "334766464242",
+    "project_id": "venadu-60c82",
+    "storage_bucket": "venadu-60c82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334766464242:android:20147bf4332d04b06a846b",
+        "android_client_info": {
+          "package_name": "com.example.venad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3PUu2l4m5OMhZG4zZJRvIFwHNzGnQt_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

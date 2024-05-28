@@ -16,7 +16,7 @@ class NavigateButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 60,
-      width: double.infinity,
+      width: mq.width,
       child: MaterialButton(
           shape: shape,
           onPressed: toNavigate,

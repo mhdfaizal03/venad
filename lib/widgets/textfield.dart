@@ -7,7 +7,9 @@ class TextFields extends StatelessWidget {
   TextEditingController? controller;
   Color? filledColor;
   double radius;
-  Widget? prefixicon;
+  Widget? prefix;
+  TextInputType keyBoardType;
+  bool isEnable;
   TextFields({
     super.key,
     required this.label,
@@ -15,18 +17,22 @@ class TextFields extends StatelessWidget {
     this.filledColor = Colors.white,
     this.controller,
     this.radius = 5,
-    this.prefixicon,
+    this.prefix,
+    this.keyBoardType = TextInputType.name,
+    this.isEnable = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: isEnable,
+      keyboardType: keyBoardType,
       style: const TextStyle(color: Colors.black),
       // cursorColor: Colors.black,
       controller: controller,
 
       decoration: InputDecoration(
-        prefixIcon: prefixicon,
+        prefixIcon: prefix,
         labelText: label,
         labelStyle: const TextStyle(
           color: Colors.black,
